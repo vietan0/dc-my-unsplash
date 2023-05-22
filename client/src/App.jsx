@@ -1,18 +1,54 @@
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { nanoid } from 'nanoid';
+import { ImagesContext } from './contexts/ImagesContext';
+import layBricks from './utils/layBricks';
+import Popup from './components/Popup';
+import MasonryCol from './components/MasonryCol';
 
 function App() {
-  const [msg, setMsg] = useState('');
+  const { images } = useContext(ImagesContext);
+  const [popupOpen, setPopupOpen] = useState(false);
 
-  function handleClick() {
-    fetch('http://localhost:5001/dc-my-unsplash/us-central1/api')
-      .then((res) => res.json())
-      .then((data) => setMsg(data.msg));
+  const [gridCols, setGridCols] = useState('grid-cols-3');
+  const gridBreaks = [400, 520, 768, 1024, 1440];
+  useEffect(() => {
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > gridBreaks[4]) {
+        setGridCols('grid-cols-5');
+      }
+      if (gridBreaks[3] < window.innerWidth && window.innerWidth < gridBreaks[4]) {
+        setGridCols('grid-cols-4');
+      }
+      if (gridBreaks[2] < window.innerWidth && window.innerWidth < gridBreaks[3]) {
+        setGridCols('grid-cols-3');
+      }
+      if (gridBreaks[1] < window.innerWidth && window.innerWidth < gridBreaks[2]) {
+        setGridCols('grid-cols-2');
+      }
+      if (window.innerWidth < gridBreaks[1]) {
+        setGridCols('grid-cols-1');
+      }
+    });
+  }, []);
+
+  function handleAddPhotoClick() {
+    setPopupOpen(true);
   }
+
+  const cols = layBricks(images, gridCols.charAt(gridCols.length - 1));
+  const colElems = cols.map((col) => (
+    <MasonryCol
+      col={col}
+      key={nanoid()}
+    />
+  ));
+
   return (
-    <div className="App flex min-h-screen flex-col gap-8 bg-white px-4 py-8 text-black dark:bg-slate-950 dark:text-white xs:p-12">
+    <div className="App m-auto flex min-h-screen max-w-screen-xl flex-col gap-8 p-4 xs:p-8 sm:px-12">
       <h1 className="sr-only">My Unsplash</h1>
-      <header className="flex flex-col items-stretch justify-between gap-4 xs:gap-8 sm:flex-row">
-        <div className="flex max-w-lg flex-col gap-4 xs:flex-1 xs:flex-row xs:items-center">
+      {popupOpen && <Popup setPopupOpen={setPopupOpen} />}
+      <header className="flex flex-col items-stretch justify-between gap-4 sm:flex-row sm:gap-8">
+        <div className="flex max-w-xl flex-col gap-4 xs:flex-1 xs:flex-row xs:items-center">
           <a href="/">
             <svg
               className="myUnsplash-logo min-w-[100px]"
@@ -72,7 +108,7 @@ function App() {
               viewBox="0 0 24 24"
               strokeWidth="1.5"
               stroke="currentColor"
-              className="absolute left-3 top-3 h-6 w-6 stroke-slate-500"
+              className="absolute left-2 top-2 h-6 w-6 stroke-slate-500 xs:left-3 xs:top-3"
             >
               <path
                 strokeLinecap="round"
@@ -83,19 +119,20 @@ function App() {
             <input
               type="text"
               id="search"
-              placeholder="Search by name"
-              className="w-full rounded-md bg-slate-200 p-3 pl-12 placeholder:text-slate-500 dark:bg-slate-900"
+              placeholder="Search by labels"
+              className="w-full rounded-md bg-slate-200 p-1.5 pl-9 placeholder:text-slate-500 dark:bg-slate-900 xs:p-3 xs:pl-12"
             />
           </label>
         </div>
         <button
-          className="rounded-md bg-blue-700 px-5 py-3 text-white dark:bg-blue-500"
           type="button"
+          onClick={handleAddPhotoClick}
+          className="rounded-md bg-blue-700 px-5 py-1.5 text-white dark:bg-blue-500 xs:py-3"
         >
           Add Photo
         </button>
       </header>
-      <div className="flex-grow rounded-md outline outline-1 outline-slate-500">Masonry</div>
+      <div className={`masonry ${gridCols} grid flex-grow gap-6`}>{colElems}</div>
     </div>
   );
 }

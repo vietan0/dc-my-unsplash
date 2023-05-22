@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const { exec } = require('node:child_process');
 const multer = require('multer');
+const cors = require('cors');
 const supabase = require('./supabase');
 const genFileName = require('./genFileName');
 require('dotenv').config();
@@ -19,6 +20,7 @@ const upload = multer({ storage });
 const PORT = process.env.PORT || 3000;
 const app = express();
 
+app.use(cors());
 app.use(express.json(), express.urlencoded({ extended: false }));
 
 app.get('/', (req, res) => {
@@ -33,7 +35,7 @@ app.get('/', (req, res) => {
 app.get('/images', async (req, res) => {
   try {
     const allImages = await supabase.getAllImages();
-    res.json(allImages);
+    res.json(allImages.length !== 0 ? allImages : { msg: 'database is empty' });
   } catch (err) {
     console.log(err.message);
   }

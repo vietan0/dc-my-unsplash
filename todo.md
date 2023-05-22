@@ -5,15 +5,22 @@
   - [x] frontend on Firebase ✔️ / Vercel / Cloudflare Pages
   - [x] backend on Firebase / Vercel / Render ✔️
 - [x] use Supabase as DB
-- [ ] modularize your frontend
-- [ ] get some placeholder images
+- [x] modularize your frontend
+- [x] get some placeholder images
+- [ ] add hover effect for buttons
+- [ ] custom cursor for fun
+- [x] move `images` to Context
+- [x] press `X` on image can delete label (`setImages`)
+- [ ] differentiate `Label` in `Popup` and `Label` in `Image`
+- [ ] make `Popup` reusable 
+- [ ] create image view popup
+- [ ] make images condense
 
 ### Must Use:
 
 - [x] Tailwind
-- [ ] animation (`Framer`)
 - [ ] lazy loading on scroll
-- [ ] useEffect Clean Up
-- [ ] authentication
+- [x] useEffect Clean Up
+- [ ] animation (`Framer`)
 - [ ] animate when masonry move around
 - [ ] animate when new photo added
