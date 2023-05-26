@@ -31,7 +31,7 @@ function DeleteLabelIcon({ text, url, setLabels }) {
       strokeWidth="1.5"
       stroke="currentColor"
       onClick={removeLabel}
-      className="absolute inset-y-0 right-0 m-auto h-6 w-6 cursor-pointer rounded-full bg-slate-200 hover:bg-slate-300 p-1 outline outline-1 outline-blue-500 dark:bg-slate-800 dark:hover:bg-slate-700"
+      className="absolute inset-y-0 right-0 m-auto h-6 w-6 cursor-pointer rounded-full bg-slate-200 p-1 outline outline-1 outline-blue-500 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700"
     >
       <path
         strokeLinecap="round"
@@ -59,13 +59,12 @@ function Highlight({ text }) {
   return <span>{concatenated}</span>;
 }
 
-export default function Label({
-  text, url, setLabels,
-}) {
+export default function Label({ text, url, setLabels }) {
   const { searchInput, setSearchInput } = useContext(MainContext);
   const [hover, setHover] = useState(false);
 
-  function seeLabels() {
+  function seeLabels(e) {
+    e.stopPropagation();
     setSearchInput(text);
   }
 
@@ -99,9 +98,7 @@ DeleteLabelIcon.defaultProps = {
   setLabels: undefined,
 };
 
-Highlight.propTypes = {
-  text: string.isRequired,
-};
+Highlight.propTypes = { text: string.isRequired };
 
 Label.propTypes = {
   text: string.isRequired,

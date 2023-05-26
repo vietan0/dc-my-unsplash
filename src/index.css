@@ -9,12 +9,14 @@
 
 @layer components {
   .btn-primary {
-    @apply rounded-md bg-blue-500 
-    px-5 py-1.5 text-white 
+    @apply flex min-w-[90px] 
+    justify-center rounded-md bg-blue-500 
+    px-5
+    py-1.5
+    text-white
     hover:bg-blue-600
-    focus:ring
-    active:bg-blue-700
-    disabled:cursor-not-allowed disabled:opacity-50 
+    focus:ring active:bg-blue-700 
+    disabled:cursor-not-allowed disabled:opacity-40
     xs:py-3;
   }
 }

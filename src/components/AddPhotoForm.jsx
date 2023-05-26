@@ -1,9 +1,8 @@
-import {
-  useContext, useEffect, useRef, useState,
-} from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { nanoid } from 'nanoid';
 import isUrl from 'is-url';
 import { func } from 'prop-types';
+import MoonLoader from 'react-spinners/MoonLoader';
 import Label from './Label';
 import { MainContext } from '../contexts/MainContext';
 
@@ -16,6 +15,7 @@ export default function AddPhotoForm({ setPopupOpen }) {
   const [labels, setLabels] = useState([]);
   const imageUrlInput = useRef(null);
   const [errMsg, setErrMsg] = useState('');
+  const [uploading, setUploading] = useState(false);
 
   // form handlers
   function handleUrlChange(e) {
@@ -54,15 +54,14 @@ export default function AddPhotoForm({ setPopupOpen }) {
     if (fileChosen) {
       // upload local file
       try {
+        setUploading(true);
         const formData = new FormData();
         formData.append('file', fileChosen);
         formData.append('upload_preset', 'fdio4i5m');
 
-        const res = await fetch(cloudinaryUrl, {
-          method: 'POST',
-          body: formData,
-        });
+        const res = await fetch(cloudinaryUrl, { method: 'POST', body: formData });
         const { url } = await res.json();
+        setUploading(false);
         setImages((prev) => [{ labels, url }, ...prev]);
         setPopupOpen(false);
       } catch (err) {
@@ -195,7 +194,7 @@ export default function AddPhotoForm({ setPopupOpen }) {
           <button
             type="button"
             onClick={() => setPopupOpen(false)}
-            className="rounded-md px-5 py-1.5 focus:ring focus:ring-slate-500 text-slate-950 outline outline-1 outline-slate-500 hover:bg-slate-200 active:bg-slate-300 dark:text-white dark:hover:bg-slate-800 dark:active:bg-slate-700 xs:py-3"
+            className="rounded-md px-5 py-1.5 text-slate-950 outline outline-1 outline-slate-500 hover:bg-slate-200 focus:ring focus:ring-slate-500 active:bg-slate-300 dark:text-white dark:hover:bg-slate-800 dark:active:bg-slate-700 xs:py-3"
           >
             Cancel
           </button>
@@ -205,7 +204,18 @@ export default function AddPhotoForm({ setPopupOpen }) {
             className="btn-primary"
             disabled={!urlForm}
           >
-            Submit
+            {uploading ? (
+              <MoonLoader
+                color="white"
+                loading={uploading}
+                cssOverride={{ display: '-webkit-box' }}
+                size={18}
+                aria-label="Loading Spinner"
+                data-testid="loader"
+              />
+            ) : (
+              'Submit'
+            )}
           </button>
         </div>
       </form>
@@ -213,6 +223,4 @@ export default function AddPhotoForm({ setPopupOpen }) {
   );
 }
 
-AddPhotoForm.propTypes = {
-  setPopupOpen: func.isRequired,
-};
+AddPhotoForm.propTypes = { setPopupOpen: func.isRequired };
