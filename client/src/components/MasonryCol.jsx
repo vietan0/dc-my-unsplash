@@ -2,11 +2,11 @@ import {
   arrayOf, objectOf, oneOfType, string,
 } from 'prop-types';
 import { nanoid } from 'nanoid';
-import Image from './Image';
+import ImageCard from './ImageCard';
 
 export default function MasonryCol({ col }) {
   const imageElems = col.map((image) => (
-    <Image
+    <ImageCard
       url={image.url}
       labels={image.labels}
       key={nanoid()}

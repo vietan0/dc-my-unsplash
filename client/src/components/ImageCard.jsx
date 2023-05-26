@@ -2,10 +2,12 @@ import { arrayOf, string } from 'prop-types';
 import { nanoid } from 'nanoid';
 import { useContext, useState } from 'react';
 import Label from './Label';
-import { ImagesContext } from '../contexts/ImagesContext';
+import Popup from './Popup';
+import ImageView from './ImageView';
+import { MainContext } from '../contexts/MainContext';
 
 function DeleteImageIcon({ url }) {
-  const { setImages } = useContext(ImagesContext);
+  const { setImages } = useContext(MainContext);
   function removeImage() {
     setImages((prev) => {
       const dup = [...prev]; // just a local copy
@@ -26,7 +28,7 @@ function DeleteImageIcon({ url }) {
       strokeWidth="2.5"
       stroke="currentColor"
       onClick={removeImage}
-      className="absolute right-2 top-2 h-6 w-6 cursor-pointer rounded-full bg-slate-200/50 stroke-slate-800 p-1 outline-1"
+      className="absolute right-2 top-2 h-6 w-6 cursor-pointer rounded-full bg-slate-200/50 stroke-slate-800 p-1 outline-1 hover:bg-slate-300/50"
     >
       <path
         strokeLinecap="round"
@@ -37,8 +39,9 @@ function DeleteImageIcon({ url }) {
   );
 }
 
-export default function Image({ url, labels }) {
+export default function ImageCard({ url, labels }) {
   const [hover, setHover] = useState(false);
+  const { setImageViewOpen } = useContext(MainContext);
   function handleMouseEnter() {
     setHover(true);
   }
@@ -47,14 +50,15 @@ export default function Image({ url, labels }) {
   }
   return (
     <div
-      className="relative rounded-md bg-blue-100 dark:bg-slate-900"
+      className="relative cursor-pointer rounded-md bg-blue-100 dark:bg-slate-900"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onClick={() => setImageViewOpen({ url, labels })}
     >
       <img
         src={url}
         alt=""
-        className="rounded-md w-full"
+        className="w-full rounded-md"
       />
       <div className={labels.length > 0 ? 'p-4' : ''}>
         {labels.map((text) => (
@@ -74,7 +78,7 @@ DeleteImageIcon.propTypes = {
   url: string.isRequired,
 };
 
-Image.propTypes = {
+ImageCard.propTypes = {
   url: string.isRequired,
   labels: arrayOf(string).isRequired,
 };

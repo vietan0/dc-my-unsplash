@@ -1,41 +1,59 @@
 import { useContext, useEffect, useState } from 'react';
 import { nanoid } from 'nanoid';
-import { ImagesContext } from './contexts/ImagesContext';
+import { MainContext } from './contexts/MainContext';
 import layBricks from './utils/layBricks';
 import Popup from './components/Popup';
 import MasonryCol from './components/MasonryCol';
+import AddPhotoForm from './components/AddPhotoForm';
+import ImageView from './components/ImageView';
 
 function App() {
-  const { images } = useContext(ImagesContext);
-  const [popupOpen, setPopupOpen] = useState(false);
+  const {
+    images, imageViewOpen, setImageViewOpen, searchInput, setSearchInput,
+  } = useContext(MainContext);
+  const [addPhotoOpen, setAddPhotoOpen] = useState(false);
 
-  const [gridCols, setGridCols] = useState('grid-cols-3');
   const gridBreaks = [400, 520, 768, 1024, 1440];
+  function setSize() {
+    const wW = window.innerWidth;
+    if (wW <= gridBreaks[1]) {
+      return 'grid-cols-1';
+    }
+    if (gridBreaks[1] < wW && wW <= gridBreaks[2]) {
+      return 'grid-cols-2';
+    }
+    if (gridBreaks[2] < wW && wW <= gridBreaks[3]) {
+      return 'grid-cols-3';
+    }
+    if (gridBreaks[3] < wW && wW <= gridBreaks[4]) {
+      return 'grid-cols-4';
+    }
+    return 'grid-cols-5';
+  }
+
+  const [gridCols, setGridCols] = useState(setSize());
   useEffect(() => {
     window.addEventListener('resize', () => {
-      if (window.innerWidth > gridBreaks[4]) {
-        setGridCols('grid-cols-5');
-      }
-      if (gridBreaks[3] < window.innerWidth && window.innerWidth < gridBreaks[4]) {
-        setGridCols('grid-cols-4');
-      }
-      if (gridBreaks[2] < window.innerWidth && window.innerWidth < gridBreaks[3]) {
-        setGridCols('grid-cols-3');
-      }
-      if (gridBreaks[1] < window.innerWidth && window.innerWidth < gridBreaks[2]) {
-        setGridCols('grid-cols-2');
-      }
-      if (window.innerWidth < gridBreaks[1]) {
-        setGridCols('grid-cols-1');
-      }
+      setGridCols(setSize());
     });
   }, []);
 
   function handleAddPhotoClick() {
-    setPopupOpen(true);
+    setAddPhotoOpen(true);
   }
 
-  const cols = layBricks(images, gridCols.charAt(gridCols.length - 1));
+  function handleSearchChange(e) {
+    setSearchInput(e.target.value);
+  }
+  const filtered = images.filter((image) => {
+    const { labels } = image;
+    return searchInput
+      ? labels.includes(searchInput) || labels.filter((str) => str.includes(searchInput)).length > 0
+      : image;
+  });
+
+  const cols = layBricks(filtered, gridCols.charAt(gridCols.length - 1));
+  console.log(cols.length);
   const colElems = cols.map((col) => (
     <MasonryCol
       col={col}
@@ -44,14 +62,27 @@ function App() {
   ));
 
   return (
-    <div className="App m-auto flex min-h-screen max-w-screen-xl flex-col gap-8 p-4 xs:p-8 sm:px-12">
+    <div className="App m-auto flex min-h-screen max-w-screen-xl flex-col gap-4 px-4 pb-4 xs:px-8 xs:pb-8 sm:px-12">
       <h1 className="sr-only">My Unsplash</h1>
-      {popupOpen && <Popup setPopupOpen={setPopupOpen} />}
-      <header className="flex flex-col items-stretch justify-between gap-4 sm:flex-row sm:gap-8">
+      {addPhotoOpen && (
+        <Popup setPopupOpen={setAddPhotoOpen}>
+          <AddPhotoForm setPopupOpen={setAddPhotoOpen} />
+        </Popup>
+      )}
+      {Object.keys(imageViewOpen).length > 0 && (
+        <Popup setPopupOpen={setImageViewOpen}>
+          <ImageView
+            url={imageViewOpen.url}
+            labels={imageViewOpen.labels}
+            setPopupOpen={setImageViewOpen}
+          />
+        </Popup>
+      )}
+      <header className="sticky top-0 z-10 flex flex-col items-stretch justify-between gap-4 bg-white/80 py-4 backdrop-blur-xl dark:bg-slate-950/80 sm:flex-row sm:gap-8">
         <div className="flex max-w-xl flex-col gap-4 xs:flex-1 xs:flex-row xs:items-center">
           <a href="/">
             <svg
-              className="myUnsplash-logo min-w-[100px]"
+              className="min-w-[100px]"
               width="138"
               height="26"
               viewBox="0 0 138 26"
@@ -120,19 +151,38 @@ function App() {
               type="text"
               id="search"
               placeholder="Search by labels"
-              className="w-full rounded-md bg-slate-200 p-1.5 pl-9 placeholder:text-slate-500 dark:bg-slate-900 xs:p-3 xs:pl-12"
+              value={searchInput}
+              onChange={handleSearchChange}
+              className="w-full rounded-md bg-slate-200/50 p-1.5 pl-9 placeholder:text-slate-500 dark:bg-slate-900/50 xs:p-3 xs:pl-12"
             />
+            {searchInput && (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="2.5"
+                stroke="currentColor"
+                onClick={() => setSearchInput('')}
+                className="absolute right-2 top-3 h-5 w-5 cursor-pointer rounded-full stroke-slate-500"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            )}
           </label>
         </div>
         <button
           type="button"
           onClick={handleAddPhotoClick}
-          className="rounded-md bg-blue-700 px-5 py-1.5 text-white dark:bg-blue-500 xs:py-3"
+          className="btn-primary"
         >
           Add Photo
         </button>
       </header>
-      <div className={`masonry ${gridCols} grid flex-grow gap-6`}>{colElems}</div>
+      <div className={`grid ${gridCols} flex-grow gap-6`}>{colElems}</div>
     </div>
   );
 }

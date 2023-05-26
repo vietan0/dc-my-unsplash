@@ -6,3 +6,15 @@
 :root {
   color-scheme: light dark;
 }
+
+@layer components {
+  .btn-primary {
+    @apply rounded-md bg-blue-500 
+    px-5 py-1.5 text-white 
+    hover:bg-blue-600
+    focus:ring
+    active:bg-blue-700
+    disabled:cursor-not-allowed disabled:opacity-50 
+    xs:py-3;
+  }
+}
