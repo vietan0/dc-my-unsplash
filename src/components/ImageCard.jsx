@@ -2,8 +2,6 @@ import { arrayOf, string } from 'prop-types';
 import { nanoid } from 'nanoid';
 import { useContext, useState } from 'react';
 import Label from './Label';
-import Popup from './Popup';
-import ImageView from './ImageView';
 import { MainContext } from '../contexts/MainContext';
 
 function DeleteImageIcon({ url }) {
@@ -74,9 +72,7 @@ export default function ImageCard({ url, labels }) {
   );
 }
 
-DeleteImageIcon.propTypes = {
-  url: string.isRequired,
-};
+DeleteImageIcon.propTypes = { url: string.isRequired };
 
 ImageCard.propTypes = {
   url: string.isRequired,

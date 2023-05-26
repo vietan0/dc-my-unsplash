@@ -1,6 +1,4 @@
-import {
-  createContext, useEffect, useMemo, useState,
-} from 'react';
+import { createContext, useEffect, useMemo, useState } from 'react';
 import { node } from 'prop-types';
 import defaultPhotos from '../defaultPhotos';
 
@@ -31,6 +29,4 @@ export default function MainContextProvider({ children }) {
   return <MainContext.Provider value={passedVals}>{children}</MainContext.Provider>;
 }
 
-MainContextProvider.propTypes = {
-  children: node.isRequired,
-};
+MainContextProvider.propTypes = { children: node.isRequired };

@@ -1,6 +1,4 @@
-import {
-  arrayOf, objectOf, oneOfType, string,
-} from 'prop-types';
+import { arrayOf, objectOf, oneOfType, string } from 'prop-types';
 import { nanoid } from 'nanoid';
 import ImageCard from './ImageCard';
 
@@ -15,6 +13,4 @@ export default function MasonryCol({ col }) {
   return <div className="flex flex-col gap-6">{imageElems}</div>;
 }
 
-MasonryCol.propTypes = {
-  col: arrayOf(objectOf(oneOfType([string, arrayOf(string)]))).isRequired,
-};
+MasonryCol.propTypes = { col: arrayOf(objectOf(oneOfType([string, arrayOf(string)]))).isRequired };

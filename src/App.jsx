@@ -8,9 +8,7 @@ import AddPhotoForm from './components/AddPhotoForm';
 import ImageView from './components/ImageView';
 
 function App() {
-  const {
-    images, imageViewOpen, setImageViewOpen, searchInput, setSearchInput,
-  } = useContext(MainContext);
+  const { images, imageViewOpen, setImageViewOpen, searchInput, setSearchInput } = useContext(MainContext);
   const [addPhotoOpen, setAddPhotoOpen] = useState(false);
 
   const gridBreaks = [400, 520, 768, 1024, 1440];

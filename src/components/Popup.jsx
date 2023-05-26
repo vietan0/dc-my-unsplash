@@ -1,4 +1,4 @@
-import { func, node, string } from 'prop-types';
+import { func, node } from 'prop-types';
 import { useEffect } from 'react';
 
 export default function Popup({ setPopupOpen, children }) {

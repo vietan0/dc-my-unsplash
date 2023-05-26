@@ -22,7 +22,7 @@ export default function ImageView({ url, labels }) {
         <button
           type="button"
           onClick={download}
-          className="flex cursor-pointer gap-2 rounded-full bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 active:bg-slate-400 dark:active:bg-slate-800 focus:ring px-4 py-2"
+          className="flex cursor-pointer gap-2 rounded-full bg-slate-200 px-4 py-2 hover:bg-slate-300 focus:ring active:bg-slate-400 dark:bg-slate-800 dark:hover:bg-slate-700 dark:active:bg-slate-800"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -43,7 +43,7 @@ export default function ImageView({ url, labels }) {
         <button
           type="button"
           onClick={copy}
-          className="flex cursor-pointer gap-2 rounded-full bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 active:bg-slate-400 dark:active:bg-slate-800 focus:ring px-4 py-2"
+          className="flex cursor-pointer gap-2 rounded-full bg-slate-200 px-4 py-2 hover:bg-slate-300 focus:ring active:bg-slate-400 dark:bg-slate-800 dark:hover:bg-slate-700 dark:active:bg-slate-800"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
