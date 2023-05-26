@@ -24,6 +24,7 @@
 - [x] remove non-Tailwind classNames
 - [x] find Tailwind ext. that handles classes format long lines
 - [x] fix 'popup (`ImageView` only) close when column num changes'
+- [ ] add loading indicator
 - [ ] perf: improve layout shift
 
 ### Must Use:

@@ -53,7 +53,6 @@ function App() {
   });
 
   const cols = layBricks(filtered, gridCols.charAt(gridCols.length - 1));
-  console.log(cols.length);
   const colElems = cols.map((col) => (
     <MasonryCol
       col={col}
