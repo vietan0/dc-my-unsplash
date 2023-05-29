@@ -7,13 +7,10 @@ export default function ImageView({ url, labels }) {
     navigator.clipboard.writeText(url);
   }
 
-  function download() {
+  function viewFullSize() {
     const a = document.createElement('a');
     a.href = url;
-    a.download = `my-unsplash-${nanoid()}.jpg`;
-    document.body.appendChild(a);
     a.click();
-    document.body.removeChild(a);
   }
 
   return (
@@ -21,7 +18,7 @@ export default function ImageView({ url, labels }) {
       <div className="flex max-w-full gap-4">
         <button
           type="button"
-          onClick={download}
+          onClick={viewFullSize}
           className="flex cursor-pointer gap-2 rounded-full bg-slate-200 px-4 py-2 hover:bg-slate-300 focus:ring active:bg-slate-400 dark:bg-slate-800 dark:hover:bg-slate-700 dark:active:bg-slate-800"
         >
           <svg

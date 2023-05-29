@@ -11,11 +11,7 @@ export default {
       ...defaultTheme.screens,
     },
 
-    extend: {
-      fontFamily: {
-        sans: ['Sarabun', ...defaultTheme.fontFamily.sans],
-      },
-    },
+    extend: { fontFamily: { sans: ['Sarabun', ...defaultTheme.fontFamily.sans] } },
   },
   plugins: [],
 };
