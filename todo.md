@@ -29,7 +29,8 @@
 - [ ] perf: right now I'm sending requests for images everytime the grid column count changes
 - [ ] perf: improve layout shift
 - [ ] add 'Done' icon in places
-- [ ] fix: click delete image icon shouldn't open image view
+- [ ] another approach to masonry: use transform:translate()
+- [x] fix: click delete image icon shouldn't open image view
 
 ### Must Use:
 

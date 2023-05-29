@@ -6,7 +6,8 @@ import { MainContext } from '../contexts/MainContext';
 
 function DeleteImageIcon({ url }) {
   const { setImages } = useContext(MainContext);
-  function removeImage() {
+  function removeImage(e) {
+    e.stopPropagation();
     setImages((prev) => {
       const dup = [...prev]; // just a local copy
 

@@ -11,7 +11,7 @@ function App() {
   const { images, imageViewOpen, setImageViewOpen, searchInput, setSearchInput } = useContext(MainContext);
   const [addPhotoOpen, setAddPhotoOpen] = useState(false);
 
-  const gridBreaks = [400, 520, 768, 1024, 1440];
+  const gridBreaks = [400, 520, 840, 1024, 1440];
   function setSize() {
     const wW = window.innerWidth;
     if (wW <= gridBreaks[1]) {
