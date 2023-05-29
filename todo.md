@@ -3,7 +3,6 @@
 - [x] npm i backend stuffs, frontend stuffs, eslint
 - [x] choose deploy separately strategy:
   - [x] frontend on Firebase ✔️ / Vercel / Cloudflare Pages
-  - [x] backend on Firebase / Vercel / Render ✔️
 - [x] use Supabase as DB
 - [x] modularize your frontend
 - [x] get some placeholder images
