@@ -1,13 +1,13 @@
 import { arrayOf, objectOf, oneOfType, string } from 'prop-types';
-import { nanoid } from 'nanoid';
 import ImageCard from './ImageCard';
 
 export default function MasonryCol({ col }) {
-  const imageElems = col.map((image) => (
+  const imageElems = col.map((image, i) => (
     <ImageCard
       url={image.url}
       labels={image.labels}
-      key={nanoid()}
+      index={i}
+      key={image.url}
     />
   ));
   return <div className="flex flex-col gap-6">{imageElems}</div>;

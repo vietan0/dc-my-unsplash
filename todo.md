@@ -25,12 +25,15 @@
 - [x] find Tailwind ext. that handles classes format long lines
 - [x] fix 'popup (`ImageView` only) close when column num changes'
 - [x] add loading indicator
+- [x] perf: lazy loading on scroll
+- [ ] perf: right now I'm sending requests for images everytime the grid column count changes
 - [ ] perf: improve layout shift
+- [ ] add 'Done' icon in places
+- [ ] fix: click delete image icon shouldn't open image view
 
 ### Must Use:
 
 - [x] Tailwind
-- [ ] lazy loading on scroll
 - [x] useEffect Clean Up
 - [ ] animation (`Framer`)
 - [ ] animate when masonry move around
