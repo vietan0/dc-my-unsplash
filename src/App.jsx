@@ -5,10 +5,9 @@ import layBricks from './utils/layBricks';
 import Popup from './components/Popup';
 import MasonryCol from './components/MasonryCol';
 import AddPhotoForm from './components/AddPhotoForm';
-import ImageView from './components/ImageView';
 
 function App() {
-  const { images, imageViewOpen, setImageViewOpen, searchInput, setSearchInput } = useContext(MainContext);
+  const { images, searchInput, setSearchInput } = useContext(MainContext);
   const [addPhotoOpen, setAddPhotoOpen] = useState(false);
 
   const gridBreaks = [400, 520, 840, 1024, 1440];
@@ -66,15 +65,7 @@ function App() {
           <AddPhotoForm setPopupOpen={setAddPhotoOpen} />
         </Popup>
       )}
-      {Object.keys(imageViewOpen).length > 0 && (
-        <Popup setPopupOpen={setImageViewOpen}>
-          <ImageView
-            url={imageViewOpen.url}
-            labels={imageViewOpen.labels}
-            setPopupOpen={setImageViewOpen}
-          />
-        </Popup>
-      )}
+
       <header className="sticky top-0 z-10 flex flex-col items-stretch justify-between gap-4 bg-white/80 py-4 backdrop-blur-xl dark:bg-slate-950/80 sm:flex-row sm:gap-8">
         <div className="flex max-w-xl flex-col gap-4 xs:flex-1 xs:flex-row xs:items-center">
           <a href="/">

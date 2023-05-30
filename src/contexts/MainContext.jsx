@@ -8,7 +8,6 @@ export default function MainContextProvider({ children }) {
   const [images, setImages] = useState(
     localStorage.getItem('images') ? JSON.parse(localStorage.getItem('images')) : defaultPhotos,
   );
-  const [imageViewOpen, setImageViewOpen] = useState({});
   const [searchInput, setSearchInput] = useState('');
 
   useEffect(() => {
@@ -19,12 +18,10 @@ export default function MainContextProvider({ children }) {
     () => ({
       images,
       setImages,
-      imageViewOpen,
-      setImageViewOpen,
       searchInput,
       setSearchInput,
     }),
-    [images, setImages, imageViewOpen, setImageViewOpen, searchInput, setSearchInput],
+    [images, setImages, searchInput, setSearchInput],
   );
   return <MainContext.Provider value={passedVals}>{children}</MainContext.Provider>;
 }

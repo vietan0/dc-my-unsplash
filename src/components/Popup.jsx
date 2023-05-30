@@ -15,7 +15,10 @@ export default function Popup({ setPopupOpen, children }) {
   return (
     <div
       className="fixed inset-0 z-20 bg-gray-950/80"
-      onClick={() => setPopupOpen(false)}
+      onClick={(e) => {
+        preventBubbling(e);
+        setPopupOpen(false);
+      }}
     >
       <div
         onClick={preventBubbling}

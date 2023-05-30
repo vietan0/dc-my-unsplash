@@ -2,6 +2,8 @@ import { arrayOf, string, number } from 'prop-types';
 import { nanoid } from 'nanoid';
 import { useContext, useEffect, useRef, useState } from 'react';
 import Label from './Label';
+import Popup from './Popup';
+import ImageView from './ImageView';
 import { MainContext } from '../contexts/MainContext';
 
 function DeleteImageIcon({ url }) {
@@ -39,8 +41,9 @@ function DeleteImageIcon({ url }) {
 }
 
 export default function ImageCard({ url, labels, index }) {
-  const { setImageViewOpen } = useContext(MainContext);
+  const [imageViewOpen, setImageViewOpen] = useState(false);
   const [hover, setHover] = useState(false);
+  const [src, setSrc] = useState('');
   const image = useRef(null);
 
   function handleMouseEnter() {
@@ -52,45 +55,50 @@ export default function ImageCard({ url, labels, index }) {
 
   useEffect(() => {
     const io = new IntersectionObserver((entries, observer) => {
-      entries.forEach((entry) => {
-        const img = entry.target;
-        if (index <= 2) img.setAttribute('src', url); // first few load as usual
-        else if (entry.isIntersecting) {
-          // this logic only concerns with "third or below" images
-          if (entry.boundingClientRect.height > 0) {
-            img.setAttribute('src', url);
-            img.classList.remove('fakeHeight');
-            observer.disconnect();
-          } else img.classList.add('fakeHeight');
-        }
-      });
+      if (index <= 2) setSrc(url); // first few load as usual
+      else if (entries[0].isIntersecting) {
+        setSrc(url);
+        observer.disconnect();
+      }
     });
     io.observe(image.current);
   }, []);
 
   return (
-    <div
-      className="relative cursor-pointer rounded-md bg-blue-100 dark:bg-slate-900"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      onClick={() => setImageViewOpen({ url, labels })}
-    >
-      <img
-        ref={image}
-        alt=""
-        className="w-full rounded-md"
-      />
-      <div className={labels.length > 0 ? 'p-4' : ''}>
-        {labels.map((text) => (
-          <Label
-            text={text}
-            url={url}
-            key={nanoid()}
+    <>
+      {Object.keys(imageViewOpen).length > 0 && (
+        <Popup setPopupOpen={setImageViewOpen}>
+          <ImageView
+            url={imageViewOpen.url}
+            labels={imageViewOpen.labels}
+            setPopupOpen={setImageViewOpen}
           />
-        ))}
+        </Popup>
+      )}
+      <div
+        className="relative cursor-pointer rounded-md bg-blue-100 dark:bg-slate-900"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        onClick={() => setImageViewOpen({ url, labels })}
+      >
+        <img
+          ref={image}
+          src={src}
+          alt=""
+          className="w-full rounded-md"
+        />
+        <div className={labels.length > 0 ? 'p-4' : ''}>
+          {labels.map((text) => (
+            <Label
+              text={text}
+              url={url}
+              key={nanoid()}
+            />
+          ))}
+        </div>
+        {hover && <DeleteImageIcon url={url} />}
       </div>
-      {hover && <DeleteImageIcon url={url} />}
-    </div>
+    </>
   );
 }
 
