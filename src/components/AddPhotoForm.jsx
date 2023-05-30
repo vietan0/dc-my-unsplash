@@ -98,7 +98,7 @@ export default function AddPhotoForm({ setPopupOpen }) {
 
   return (
     <>
-      <p className="flex items-center gap-2 text-2xl font-bold">
+      <p className="flex items-center gap-2 text-xl font-bold xs:text-2xl">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -124,7 +124,7 @@ export default function AddPhotoForm({ setPopupOpen }) {
           className="flex flex-col gap-2"
         >
           <p>Image URL</p>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-col gap-2 xs:flex-row xs:items-center xs:gap-4">
             <div className="relative flex flex-grow items-center">
               <input
                 ref={imageUrlInput}
@@ -162,7 +162,7 @@ export default function AddPhotoForm({ setPopupOpen }) {
               type="file"
               name="file"
               onChange={handleFileChange}
-              className="max-w-[100px] cursor-pointer text-clip text-[6px] text-transparent file:rounded-md file:border file:border-solid file:border-blue-500 file:bg-slate-200 file:p-1.5 file:font-sans file:text-base file:text-slate-500 file:hover:bg-slate-300 file:active:bg-slate-400 dark:file:bg-slate-800 dark:file:hover:bg-slate-700 dark:file:active:bg-slate-900 xs:file:p-3"
+              className="w-full cursor-pointer text-clip text-[6px] text-transparent file:w-full file:rounded-md file:border file:border-solid file:border-blue-500 file:bg-slate-200 file:p-1.5 file:font-sans file:text-base file:text-slate-500 file:hover:bg-slate-300 file:active:bg-slate-400 dark:file:bg-slate-800 dark:file:hover:bg-slate-700 dark:file:active:bg-slate-900 xs:max-w-[100px] xs:file:p-3"
             />
           </div>
         </label>

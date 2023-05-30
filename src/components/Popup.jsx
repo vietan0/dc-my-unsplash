@@ -22,7 +22,7 @@ export default function Popup({ setPopupOpen, children }) {
     >
       <div
         onClick={preventBubbling}
-        className="absolute inset-0 m-auto flex h-min max-h-[90vh] w-10/12 min-w-min max-w-3xl flex-col gap-4 rounded-xl bg-slate-50 p-6 dark:bg-slate-900 sm:w-[80vw]"
+        className="absolute inset-0 mx-4 my-auto flex h-min max-h-[90vh] min-w-min max-w-3xl flex-col gap-4 rounded-xl bg-slate-50 p-4 xs:p-6 dark:bg-slate-900 xs:mx-8 sm:mx-auto sm:w-[80vw]"
       >
         {children}
       </div>
